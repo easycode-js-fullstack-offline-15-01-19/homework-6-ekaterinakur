@@ -12,7 +12,8 @@ btnMsg.addEventListener('mouseover', function() { btnMsg.style.background = 'red
 btnMsg.addEventListener('mouseleave', function() { btnMsg.style.background = ''; });
 
 // 3. При нажатии на любой узел документа показать в элементе с id=tag имя тега нажатого элемента.
-document.body.addEventListener('click', function(e) { document.getElementById('tag').textContent = 'Tag: ' +  e.target.tagName; });
+let tag = document.getElementById('tag');
+document.body.addEventListener('click', function(e) { tag.textContent = 'Tag: ' +  e.target.tagName; });
 
 // или (но добавляет к предыдущему результату)
 // let idTag = document.getElementById('tag');
@@ -31,30 +32,19 @@ btnGenerate.addEventListener('click', function() {
 
 //   Slide 15   ----------------------------------------------------
 //  6. Реализовать примитивный дропдаун. 
-let ddiLi = document.getElementsByClassName('dropdown-item');
-let ddmDiv = document.getElementsByClassName('dropdown-menu');
+let menu = document.querySelector('.menu');
 
-//  Без доп. аттрибутов не знаю как сделать
-for (let i = 0; i < ddiLi.length; i++) {
-	ddiLi[i].setAttribute('id', 'clicked' + i);
-}
+menu.addEventListener('click', function (e) {
+	let item = e.target.closest('li.dropdown-item');
 
-let firstClicked = document.getElementById('clicked0');
-let secondClicked = document.getElementById('clicked1');
+	if (!item) return;
 
-for (let i = 0; i < ddmDiv.length; i++) {
-	ddmDiv[i].setAttribute('id', 'openable' + i);
-}
-
-let firstOpenable = document.getElementById('openable0');
-let secondOpenable = document.getElementById('openable1');
-
-firstClicked.addEventListener('click', function() {
-	firstOpenable.classList.toggle('d-none');
-	secondOpenable.classList.add('d-none');
-});
-
-secondClicked.addEventListener('click', function() {
-	secondOpenable.classList.toggle('d-none');
-	firstOpenable.classList.add('d-none');
+	if (item.querySelector('.dropdown-menu').classList.contains('d-none')) {
+		this.querySelectorAll('.dropdown-menu').forEach(function (item) {
+			item.classList.add('d-none');
+		});
+		item.querySelector('.dropdown-menu').classList.toggle('d-none');
+	} else {
+		item.querySelector('.dropdown-menu').classList.toggle('d-none');
+	}
 });
